@@ -13,7 +13,7 @@ export function init() {
             {
                 clientID: process.env.GOOGLE_CLIENT_ID!,
                 clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-                callbackURL: "https://chapterly.onrender.com/auth/google/callback",
+                callbackURL: "http://localhost:3000/auth/google/callback",
             },
             async (_accessToken, _refreshToken, profile, done) => {
                 try {
@@ -23,8 +23,8 @@ export function init() {
                         console.log(profile);
                         user = await prisma.user.create({
                             data: {
-                                regno: profile.id,
-                                name: profile.displayName,
+                                regno: profile.displayName.split(" ").pop(),
+                                name: profile.name?.givenName || profile.displayName,
                                 email: profile.emails?.[0].value || "",
                                 authId: profile.id,
                                 isExc: false,
@@ -57,9 +57,10 @@ app.get(
       (req, res) => {
         console.log(req.user.token);
           const token = req.user.token as any;
-        res.cookie("token", token);
+          res.cookie("token", token);
+          const user= req.user;
           //   res.redirect(`http://localhost:3001/auth/sign-in?token=${token}`);
-          res.json({ token });
+          res.json({ token, user });
     }
   );
   export default app;
