@@ -33,7 +33,7 @@
   "main": "backend/dist/app.js",
   "scripts": {
     "test-backend": "tsx watch apps/backend/src/app.ts",
-    "run": "tsx apps/backend/src/app.ts"
+    "run": "tsx apps/backend/app.ts"
   },
   "author": "TBA5854",
   "license": "ISC"
