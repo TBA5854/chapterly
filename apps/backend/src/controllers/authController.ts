@@ -54,9 +54,11 @@ app.get(
   app.get(
     "/auth/google/callback",
     passport.authenticate("google", { session: false }),
-    (req, res) => {
-      const { token } = req.user as any;
-      res.redirect(`http://localhost:3000/auth-success?token=${token}`);
+      (req, res) => {
+        console.log(req.user.token);
+          const token = req.user.token as any;
+        res.cookie("token", token);
+      res.redirect(`http://localhost:3001/auth/sign-in?token=${token}`);
     }
   );
   export default app;
