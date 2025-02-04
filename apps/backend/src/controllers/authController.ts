@@ -3,6 +3,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import jwt from "jsonwebtoken";
 import { prisma } from "../../../../db/dbController";
 import { Router } from "express";
+import isLoggedin from "../middlewares/authMiddleware";
 
 
 const SECRET = process.env.JWT_SECRET || "your_jwt_secret";
@@ -13,7 +14,7 @@ export function init() {
             {
                 clientID: process.env.GOOGLE_CLIENT_ID!,
                 clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-                callbackURL: "http://localhost:3000/auth/google/callback",
+                callbackURL: "https://chapterly.onrender.com/auth/google/callback",
             },
             async (_accessToken, _refreshToken, profile, done) => {
                 try {
@@ -63,4 +64,21 @@ app.get(
           res.json({ token, user });
     }
   );
-  export default app;
+
+app.get(
+    "/checkUser", isLoggedin,(req, res) => {
+    const authHeader = req.headers.authorization!;
+        const id = authHeader.split(' ')[1]
+        const user = prisma.user.findUnique({
+            where:{authId:id}
+        })
+        if (!user) {
+            res.status(200).json({"Info":"New User"})
+        } else {
+            res.status(200).json({"Info":"OK"})
+        }
+    }
+)
+
+export default app;
+  
