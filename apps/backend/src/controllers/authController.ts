@@ -58,7 +58,8 @@ app.get(
         console.log(req.user.token);
           const token = req.user.token as any;
         res.cookie("token", token);
-      res.redirect(`http://localhost:3001/auth/sign-in?token=${token}`);
+          //   res.redirect(`http://localhost:3001/auth/sign-in?token=${token}`);
+          res.json({ token });
     }
   );
   export default app;
