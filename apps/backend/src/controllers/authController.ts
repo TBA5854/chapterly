@@ -49,7 +49,7 @@ export function init() {
 const app = Router();
 app.get(
     "/auth/google",
-    passport.authenticate("google", { scope: ["profile", "email"] })
+    passport.authenticate("google", { scope: ["profile", "email"],hostedDomain:"vitstudent.ac.in" })
   );
   
   app.get(
