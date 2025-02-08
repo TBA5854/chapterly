@@ -26,25 +26,25 @@ export const getUserById = async (req: Request, res: Response) => {
     }
 };
 
-export const createUser = async (req: Request, res: Response) => {
-    const { regno, name, isExc, role, phno, email, authId } = req.body;
-    try {
-        const newUser = await prisma.user.create({
-            data: {
-                regno,
-                name,
-                isExc,
-                role,
-                phno,
-                email,
-                authId,
-            },
-        });
-        res.status(201).json(newUser);
-    } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
-    }
-};
+// export const createUser = async (req: Request, res: Response) => {
+//     const { regno, name, isExc, role, phno, authId } = req.body;
+//     try {
+//         const newUser = await prisma.user.update({
+//             data: {
+//                 regno,
+//                 name,
+//                 isExc,
+//                 role,
+//                 phno,
+//                 email,
+//                 authId,
+//             },
+//         });
+//         res.status(201).json(newUser);
+//     } catch (error) {
+//         res.status(500).json({ error: 'Internal server error' });
+//     }
+// };
 
 export const updateUser = async (req: Request, res: Response) => {
     const { id } = req.params;

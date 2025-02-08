@@ -13,8 +13,7 @@ model User {
   isExc  Boolean @default(false)
   role   Role    @default(Jr)
   phno   String?
-  email  String?
-  authId String   @id
+  email  String   @id
 
   eventsScan         Event[]       @relation("EventAttendance")
   scannedAttendances Attendance[]  @relation("ScannedAttendances")

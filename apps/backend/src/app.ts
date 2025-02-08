@@ -26,3 +26,11 @@ app.get("/", isLoggedin, (_req: any, res: any) => {
 console.log("Server running on port 5000");
 app.listen(3000);
 
+
+app.get("/", isLoggedin, (_req: any, res: any) => {
+  res.send("Hello World!");
+});
+
+app.get("/test", (req, res) => {
+  res.redirect("com.example.chapterly:/");
+})
