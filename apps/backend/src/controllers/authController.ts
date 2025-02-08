@@ -17,24 +17,19 @@ export function init() {
       },
       async (_accessToken, _refreshToken, profile, done) => {
         try {
-          let user = await prisma.user.findUnique({
-            where: { authId: profile.id },
-          });
 
-          if (!user) {
             console.log(profile);
-            user = await prisma.user.create({
+            const user= await prisma.user.create({
               data: {
                 regno: profile.displayName.split(" ").pop(),
                 name: profile.name?.givenName || profile.displayName,
                 email: profile.emails?.[0].value || "",
-                authId: profile.id,
                 isExc: false,
                 role: "Jr",
                 phno: "",
               },
             });
-          }
+          
 
           const token = jwt.sign({ regno: user.regno }, SECRET, {
             expiresIn: "1h",

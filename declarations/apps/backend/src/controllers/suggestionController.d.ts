@@ -1,0 +1,10 @@
+import { Request, Response } from "express";
+export declare const getSuggestions: (_req: Request, res: Response) => Promise<void>;
+export declare const getSuggestionById: (req: Request, res: Response) => Promise<void>;
+export declare const createSuggestion: (req: Request, res: Response) => Promise<void>;
+export declare const updateSuggestion: (req: Request, res: Response) => Promise<void>;
+export declare const deleteSuggestion: (req: Request, res: Response) => Promise<void>;
+export declare const approveSuggestion: (req: Request, res: Response) => Promise<void>;
+export declare const getApprovedSuggestions: (_req: Request, res: Response) => Promise<void>;
+export declare const getRejectedSuggestions: (_req: Request, res: Response) => Promise<void>;
+export declare const rejectSuggestion: (req: Request, res: Response) => Promise<void>;
