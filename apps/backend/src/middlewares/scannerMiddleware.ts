@@ -4,14 +4,13 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const scannerMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-    const userId = req.headers['authorization'] as string; // Assuming userId is passed in the authorization header
-    const eventId = req.params.eventId; // Assuming eventId is passed as a route parameter
-
+    const eventId = req.params.eventId; 
+    const regno = req.user as string;
     try {
         const scanner = await prisma.scanners.findUnique({
             where: {
                 regno_eventId: {
-                    regno: userId,
+                    regno: regno,
                     eventId: eventId,
                 },
             },

@@ -85,9 +85,23 @@ export const deleteScanner = async (req: Request, res: Response) => {
 };
 
 export const scanId = async (req: Request, res: Response) => { 
-    const { regno, eventId,scannedBy } = req.body;
+    const { regno, eventId } = req.body;
+    console.log({regno, eventId});
+    const scannedBy = req.user as string;
     try {
+        const scan = await prisma.attendance.findUnique({
+            where: {
+                regno_eventId: {
+                    regno,
+                    eventId,
+                },
+            },
+        });
         
+        if (scan) {
+            return res.status(409).json({ error: 'Attendance already recorded' });
+        }
+
         const newScan = await prisma.attendance.create({
             data: {
                 regno,
@@ -96,8 +110,11 @@ export const scanId = async (req: Request, res: Response) => {
                 scannedBy,
             },
         });
+        console.log({newScan});
         res.status(201).json(newScan);
+        console.log("Scanned");
     } catch (error) {
+        console.log({error});
         res.status(500).json({ error: 'Failed to scan' });
     }
 }

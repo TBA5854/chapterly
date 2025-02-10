@@ -7,14 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  regno  String?  @unique
-  name   String?
-  isExc  Boolean @default(false)
-  role   Role    @default(Jr)
-  phno   String?
-  email  String   @id
+model Google {
+  gid   String @id @default(uuid())
+  email String @unique
 
+  User User[]
+}
+
+model User {
+  regno String  @id
+  name  String
+  isExc Boolean @default(false)
+  role  Role    @default(Jr)
+  phno  String
+  email String  @unique
+
+  userEmail          Google        @relation(fields: [email], references: [email])
   eventsScan         Event[]       @relation("EventAttendance")
   scannedAttendances Attendance[]  @relation("ScannedAttendances")
   suggestions        Suggestions[]
@@ -75,6 +83,8 @@ model Attendance {
   scanner   User    @relation("ScannedAttendances", fields: [scannedBy], references: [regno])
 
   Event Event[] @relation("EventAttendance")
+
+  @@unique([regno, eventId])
 }
 
 model Exc {

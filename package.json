@@ -25,6 +25,7 @@
     "nodemon": "^3.1.9",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
+    "punycode": "^2.3.1",
     "socket.io": "^4.8.1",
     "tsx": "^4.19.2",
     "typescript": "^5.5.3"
@@ -34,8 +35,8 @@
   "description": "A All in One Solutions for Clubs and Chapters",
   "main": "backend/dist/app.js",
   "scripts": {
-    "test-backend": "tsx watch apps/backend/src/app.ts",
-    "start": "tsx apps/backend/src/app.ts"
+    "test-backend": "tsx watch apps/backend/src/app.js",
+    "start": "tsx apps/backend/src/app.js"
   },
   "author": "TBA5854",
   "license": "ISC"

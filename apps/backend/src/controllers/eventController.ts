@@ -25,22 +25,39 @@ export const getEventById = async (req: Request, res: Response) => {
 };
 
 export const createEvent = async (req: Request, res: Response) => {
-    const { name, description, from, to, maxCapacity, location, type, pocRegno } = req.body;
+    const { eventName, eventDescription, eventFrom, eventTo, eventStartTime, eventEndTime, eventMaxCapacity, eventLocation, eventType, eventPocRegno } = req.body;
     try {
+        console.log(req.body);
+        console.log(new Date(`${eventFrom}T${eventStartTime.split(" ")[0]}`));
+        const parseTime = (time: string) => {
+            const [timePart, modifier] = time.split(' ');
+            let [hours, minutes] = timePart.split(':').map(Number);
+            if (modifier.toLowerCase() === 'pm' && hours !== 12) {
+            hours += 12;
+            } else if (modifier.toLowerCase() === 'am' && hours === 12) {
+            hours = 0;
+            }
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        };
+
+        const fromDateTime = new Date(`${eventFrom}T${parseTime(eventStartTime)}`);
+        const toDateTime = new Date(`${eventTo}T${parseTime(eventEndTime)}`);
+        console.log(fromDateTime, toDateTime);
         const newEvent = await prisma.event.create({
             data: {
-                name,
-                description,
-                from,
-                to,
-                maxCapacity,
-                location,
-                type,
-                pocRegno,
+            name: eventName,
+            description: eventDescription,
+            from: fromDateTime,
+            to: toDateTime,
+            maxCapacity: eventMaxCapacity,
+            location: eventLocation,
+            type: eventType,
+            pocRegno: eventPocRegno,
             },
         });
         res.status(201).json(newEvent);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "Failed to create event" });
     }
 };
